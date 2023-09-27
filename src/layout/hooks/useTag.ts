@@ -47,7 +47,7 @@ export function useTags() {
   const showTags =
     ref(
       storageLocal().getItem<StorageConfigs>("responsive-configure").hideTabs
-    ) ?? ref("false");
+    ) ?? ref("true");
   const multiTags: any = computed(() => {
     return useMultiTagsStoreHook().multiTags;
   });
