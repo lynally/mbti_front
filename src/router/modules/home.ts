@@ -18,6 +18,22 @@ export default {
       meta: {
         title: "首页"
       }
+    },
+    {
+      path: "/question",
+      name: "Question",
+      component: () => import("@/views/question/index.vue"),
+      meta: {
+        title: "测试"
+      }
+    },
+    {
+      path: "/result",
+      name: "Result",
+      component: () => import("@/views/result/index.vue"),
+      meta: {
+        title: "结果页"
+      }
     }
   ]
 } as RouteConfigsTable;
