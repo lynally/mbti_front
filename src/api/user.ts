@@ -1,4 +1,5 @@
 import { http } from "@/utils/http";
+import { baseUrlApi } from "./utils";
 
 export type UserResult = {
   success: boolean;
@@ -36,4 +37,16 @@ export const getLogin = (data?: object) => {
 /** 刷新token */
 export const refreshTokenApi = (data?: object) => {
   return http.request<RefreshTokenResult>("post", "/refreshToken", { data });
+};
+
+//=====================================================================================================
+export type CommonResult = {
+  status: number;
+  data: any;
+  msg: string;
+};
+
+/** 查看用户信息 */
+export const getUser = () => {
+  return http.request<CommonResult>("get", baseUrlApi("getUser"));
 };

@@ -2,6 +2,8 @@
 import { computed, onMounted, onUnmounted, reactive, ref } from "vue";
 import { isAllEmpty } from "@pureadmin/utils";
 import { useRouter } from "vue-router";
+// import { questionAll } from "@/assets/data/questions.js";
+import { questionAll } from "@/assets/data/questions_test.js";
 defineOptions({
   name: "Question"
 });
@@ -16,18 +18,12 @@ const enum answer_type {
   "J",
   "P"
 }
-const loading = ref(false);
+
 const question = reactive<{
   data: Array<{
     title: string;
-    optA: {
-      title: string;
-      value: string;
-    };
-    optB: {
-      title: string;
-      value: string;
-    };
+    optA: string;
+    optB: string;
   }>;
 }>({ data: [] });
 const answer = reactive<{ data: Array<answer_type> }>({ data: [] });
@@ -35,10 +31,20 @@ const result = ref("");
 
 const curQuestionIndex = ref(0);
 
+onMounted(() => {
+  clear();
+  init();
+});
+onUnmounted(() => {
+  clear();
+});
+const init = async () => {
+  initQuestion();
+};
 const curQuestion = computed(() => {
   return question.data[curQuestionIndex.value];
 });
-const curStepPersent = computed(() => {
+const curStep = computed(() => {
   let res = 0;
   if (!isAllEmpty(question.data)) {
     res = Math.round((curQuestionIndex.value / question.data["length"]) * 100);
@@ -46,6 +52,18 @@ const curStepPersent = computed(() => {
   return res;
 });
 
+const initQuestion = () => {
+  const arr = questionAll.split("\n");
+  question.data = groupArray(arr, 3);
+};
+function groupArray(array, groupSize) {
+  const result = [];
+  for (let i = 0; i < array.length; i += groupSize) {
+    result.push(array.slice(i, i + groupSize));
+  }
+
+  return result;
+}
 // 选择答案
 const handleSelQuestion = value => {
   answer.data[curQuestionIndex.value] = value;
@@ -55,41 +73,11 @@ const handleSelQuestion = value => {
   }
 };
 
-onMounted(() => {
+const handleGoHome = () => {
   clear();
-  init();
-});
-onUnmounted(() => {
-  clear();
-});
-const init = () => {
-  loading.value = true;
-  getData();
+  router.push("/");
 };
-const getData = () => {
-  question.data = [
-    {
-      title: "我倾向从何处得到力量?",
-      optA: { title: "别人", value: "E" },
-      optB: { title: "我自己的想法", value: "I" }
-    },
-    {
-      title: "我倾向相信： ",
-      optA: { title: "我的直觉", value: "N" },
-      optB: { title: "我直接的观察和现成的经验", value: "S" }
-    },
-    {
-      title: "我倾向比较能够察觉到： ",
-      optA: { title: "当人们需要情感上的支持时", value: "F" },
-      optB: { title: "当人们不合逻辑时", value: "T" }
-    },
-    {
-      title: "我选择的生活循环着： ",
-      optA: { title: "日程表和组织", value: "J" },
-      optB: { title: "自然发生和弹性", value: "P" }
-    }
-  ];
-};
+
 const clear = () => {
   question.data = [];
   answer.data = [];
@@ -100,39 +88,61 @@ const clear = () => {
 
 <template>
   <div>
-    <div v-if="!isAllEmpty(curQuestion)" class="p-2">
+    <div v-if="!isAllEmpty(curQuestion)">
       <el-progress
         :text-inside="true"
         :stroke-width="20"
-        :percentage="curStepPersent"
+        :percentage="curStep"
         striped
+        class="p-2"
       >
         <span>{{ curQuestionIndex }}/{{ question.data.length }}</span>
       </el-progress>
-      <div class="mt-10">
-        <div class="flex">
-          <div class="">{{ curQuestionIndex + 1 }}.&nbsp;&nbsp;&nbsp;</div>
-          <div class="flex-auto">
-            {{ curQuestion.title }}
+      <div class="mt-4 p-2">
+        <div class="flex flex-col">
+          <div class="">
+            {{ curQuestion[0] }}
+          </div>
+          <div class="mt-6 p-1">
+            <div
+              v-for="num in 2"
+              :key="num"
+              class="mb-3"
+              :class="
+                answer.data[curQuestionIndex] === (num === 1 ? 'A' : 'B')
+                  ? 'text-red-700'
+                  : ''
+              "
+              @click="handleSelQuestion(num === 1 ? 'A' : 'B')"
+            >
+              {{ curQuestion[num] }}
+            </div>
           </div>
         </div>
       </div>
-      <div class="mt-4 p-1">
-        <div class="flex" @click="handleSelQuestion(curQuestion.optA.value)">
-          <div class="">A&nbsp;&nbsp;&nbsp;</div>
-          <div class="flex-auto">
-            {{ curQuestion.optA.title }}
-          </div>
-        </div>
-        <div
-          class="flex mt-1"
-          @click="handleSelQuestion(curQuestion.optA.value)"
+
+      <div class="foot">
+        <el-button
+          style="position: absolute; bottom: 30px"
+          v-show="curQuestionIndex > 0"
+          @click="curQuestionIndex--"
         >
-          <div class="">B&nbsp;&nbsp;&nbsp;</div>
-          <div class="flex-auto">
-            {{ curQuestion.optB.title }}
-          </div>
-        </div>
+          上一题
+        </el-button>
+        <el-button
+          style="position: absolute; bottom: 30px; left: 100px"
+          v-show="curQuestionIndex < answer.data.length"
+          @click="curQuestionIndex++"
+        >
+          下一题
+        </el-button>
+        <el-button
+          style="position: absolute; bottom: 30px; right: 24px"
+          v-show="curQuestionIndex > 0"
+          @click="handleGoHome"
+        >
+          回首页
+        </el-button>
       </div>
     </div>
   </div>
