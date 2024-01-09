@@ -277,5 +277,5 @@ const questionAll =
   "B 尝试一下有没有更好的办法\n" +
   "第93题：你做事情更喜欢按：\n" +
   "A 当天的感觉\n" +
-  "B 已订好的日程表";
+  "B 已订好的日程表\n";
 export { questionAll };

@@ -32,7 +32,15 @@ export default {
       name: "Result",
       component: () => import("@/views/result/index.vue"),
       meta: {
-        title: "结果页"
+        title: "结果"
+      }
+    },
+    {
+      path: "/detail",
+      name: "Detail",
+      component: () => import("@/views/result/detail.vue"),
+      meta: {
+        title: "详细"
       }
     }
   ]

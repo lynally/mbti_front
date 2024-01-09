@@ -40,3 +40,11 @@ export type userType = {
   username?: string;
   roles?: Array<string>;
 };
+
+//===============================================================
+
+export type mbtiUseType = {
+  token?: string;
+  MBTIType?: string;
+  answer?: Array<string>;
+};

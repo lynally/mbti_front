@@ -1,23 +1,19 @@
 <script setup lang="ts">
-import { computed, onMounted, onUnmounted, reactive, ref } from "vue";
+import { computed, onMounted, onUnmounted, reactive, ref, toRaw } from "vue";
 import { isAllEmpty } from "@pureadmin/utils";
 import { useRouter } from "vue-router";
-// import { questionAll } from "@/assets/data/questions.js";
-import { questionAll } from "@/assets/data/questions_test.js";
+import { questionAll } from "@/assets/data/questions.js";
+// import { questionAll } from "@/assets/data/questions_test.js";
+import { calcuResult } from "@/api/user";
+import { useMbtiStoreHook } from "@/store/modules/mbit";
+
+const mbtiStore = useMbtiStoreHook();
+const { setUserFn } = mbtiStore;
+
 defineOptions({
   name: "Question"
 });
 const router = useRouter();
-const enum answer_type {
-  "E",
-  "I",
-  "N",
-  "S",
-  "F",
-  "T",
-  "J",
-  "P"
-}
 
 const question = reactive<{
   data: Array<{
@@ -26,7 +22,7 @@ const question = reactive<{
     optB: string;
   }>;
 }>({ data: [] });
-const answer = reactive<{ data: Array<answer_type> }>({ data: [] });
+const answer = reactive<{ data: Array<string> }>({ data: [] });
 const result = ref("");
 
 const curQuestionIndex = ref(0);
@@ -54,7 +50,7 @@ const curStep = computed(() => {
 
 const initQuestion = () => {
   const arr = questionAll.split("\n");
-  question.data = groupArray(arr, 3);
+  question.data = groupArray(arr.slice(0, arr.length - 1), 3);
 };
 function groupArray(array, groupSize) {
   const result = [];
@@ -65,17 +61,25 @@ function groupArray(array, groupSize) {
   return result;
 }
 // 选择答案
-const handleSelQuestion = value => {
+const handleSelQuestion = async value => {
   answer.data[curQuestionIndex.value] = value;
   curQuestionIndex.value++;
-  if (curQuestionIndex.value >= question.data.length) {
-    router.push("/result");
+  if (curQuestionIndex.value === question.data.length) {
+    const { status, data, message } = await calcuResult({
+      answer: toRaw(answer.data)
+    });
+    if (status === 200) {
+      setUserFn(data);
+      router.push("/result");
+    } else {
+      console.error(message);
+    }
   }
 };
 
 const handleGoHome = () => {
   clear();
-  router.push("/");
+  router.push("/welcome");
 };
 
 const clear = () => {
@@ -131,7 +135,7 @@ const clear = () => {
         </el-button>
         <el-button
           style="position: absolute; bottom: 30px; left: 100px"
-          v-show="curQuestionIndex < answer.data.length"
+          v-show="curQuestionIndex < answer.data.length - 1"
           @click="curQuestionIndex++"
         >
           下一题

@@ -43,10 +43,36 @@ export const refreshTokenApi = (data?: object) => {
 export type CommonResult = {
   status: number;
   data: any;
-  msg: string;
+  message: string;
+};
+
+/** 创建 */
+export const creatUser = () => {
+  return http.request<CommonResult>("get", baseUrlApi("createUser"));
 };
 
 /** 查看用户信息 */
 export const getUser = () => {
   return http.request<CommonResult>("get", baseUrlApi("getUser"));
+};
+
+/** 清除 */
+export const clearUser = () => {
+  return http.request<CommonResult>("get", baseUrlApi("clearUser"));
+};
+
+/** 计算类型 */
+export const calcuResult = data => {
+  return http.request<CommonResult>("post", baseUrlApi("calcuResult"), {
+    data
+  });
+};
+
+/** 查看报告（简版） */
+export const getReport = () => {
+  return http.request<CommonResult>("get", baseUrlApi("getReportSimple"));
+};
+/** 查看报告（详细） */
+export const getReportDetail = () => {
+  return http.request<CommonResult>("get", baseUrlApi("getReportAll"));
 };
