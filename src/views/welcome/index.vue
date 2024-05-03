@@ -100,7 +100,7 @@ const goResult = () => {
           type="primary"
           style="margin-bottom: 1vh; width: 50%"
           size="large"
-          @click="router.push('/about')"
+          @click="router.push('/aboutHome')"
         >
           关于
         </el-button>
