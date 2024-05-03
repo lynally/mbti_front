@@ -115,7 +115,7 @@
   "volta": {
     "node": "16.13.1"
   },
-  "repository": "",
+  "repository": "git@github.com:lynally/mbti_front.git",
   "author": "lyn",
   "license": "MIT"
 }
