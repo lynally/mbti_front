@@ -5,7 +5,7 @@ const router = useRouter();
 <template>
   <div class="flex justify-center items-center flex-wrap" style="height: 50vh">
     <div class="w-full flex justify-center">
-      <p>qq:2212770755@qq.com</p>
+      <p>Email : 2212770755@qq.com</p>
     </div>
     <div class="w-full flex justify-center">
       <el-button

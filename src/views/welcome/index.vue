@@ -55,12 +55,14 @@ const goResult = () => {
   <div>
     <Motion>
       <div class="flex justify-center items-center">
-        <h1 style="margin-top: 20vh">MBTI职业性格测试(93道题-免费)</h1>
+        <h1 class="text-center" style="margin-top: 20vh">
+          MBTI职业性格测试(93道题) <br />免费
+        </h1>
       </div>
     </Motion>
     <Motion :delay="100">
       <div class="flex flex-col items-center">
-        <template v-if="!MBTIType">
+        <template v-if="!MBTIType && false">
           <el-button
             class="mb-5"
             type="primary"
@@ -82,7 +84,7 @@ const goResult = () => {
             重新测试
           </el-button>
           <el-button
-            v-if="MBTIType"
+            v-if="MBTIType || true"
             type="primary"
             style="width: 50%; margin-left: 0"
             size="large"
@@ -94,11 +96,11 @@ const goResult = () => {
       </div>
     </Motion>
     <Motion :delay="200">
-      <div class="flex flex-col items-center">
+      <div class="flex flex-col items-center mt-5">
         <el-button
-          class="mb-5"
+          class=""
           type="primary"
-          style="margin-bottom: 1vh; width: 50%"
+          style="width: 50%"
           size="large"
           @click="router.push('/about')"
         >
