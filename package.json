@@ -1,5 +1,5 @@
 {
-  "name": "pure-admin-thin",
+  "name": "mbti_front",
   "version": "3.9.7",
   "private": true,
   "scripts": {
@@ -115,7 +115,7 @@
   "volta": {
     "node": "16.13.1"
   },
-  "repository": "git@github.com:xiaoxian521/pure-admin-thin.git",
-  "author": "xiaoxian521",
+  "repository": "",
+  "author": "lyn",
   "license": "MIT"
 }
