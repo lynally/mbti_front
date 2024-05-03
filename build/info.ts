@@ -23,7 +23,7 @@ export function viteBuildInfo(): Plugin {
       }
     },
     closeBundle() {
-      console.log(bold(green(`closeBundle`)));
+      console.log(bold(green(`closeBundle`)), config.command, outDir);
       if (config.command === "build") {
         endTime = dayjs(new Date());
         getPackageSize({
