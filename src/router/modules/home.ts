@@ -34,14 +34,6 @@ export default {
       meta: {
         title: "结果"
       }
-    },
-    {
-      path: "/detail",
-      name: "Detail",
-      component: () => import("@/views/result/detail.vue"),
-      meta: {
-        title: "详细"
-      }
     }
   ]
 } as RouteConfigsTable;

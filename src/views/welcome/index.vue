@@ -55,7 +55,7 @@ const goResult = () => {
   <div>
     <Motion>
       <div class="flex justify-center items-center">
-        <h1 style="margin-top: 20vh">MBTI职业性格测试</h1>
+        <h1 style="margin-top: 20vh">MBTI职业性格测试(93道题-免费)</h1>
       </div>
     </Motion>
     <Motion :delay="100">
@@ -91,6 +91,19 @@ const goResult = () => {
             查看结果
           </el-button>
         </template>
+      </div>
+    </Motion>
+    <Motion :delay="200">
+      <div class="flex flex-col items-center">
+        <el-button
+          class="mb-5"
+          type="primary"
+          style="margin-bottom: 1vh; width: 50%"
+          size="large"
+          @click="router.push('/aboutHome')"
+        >
+          关于
+        </el-button>
       </div>
     </Motion>
   </div>
