@@ -36,6 +36,14 @@ export default {
       }
     },
     {
+      path: "/detail",
+      name: "Detail",
+      component: () => import("@/views/result/detail.vue"),
+      meta: {
+        title: "详细"
+      }
+    },
+    {
       path: "/about",
       name: "about",
       component: () => import("@/views/about.vue"),
