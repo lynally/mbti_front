@@ -36,11 +36,11 @@ export default {
       }
     },
     {
-      path: "/detail",
-      name: "Detail",
-      component: () => import("@/views/result/detail.vue"),
+      path: "/about",
+      name: "about",
+      component: () => import("@/views/about.vue"),
       meta: {
-        title: "详细"
+        title: "关于"
       }
     }
   ]
